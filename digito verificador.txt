@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verificador de Patente Chilena</title>
+    <style>
+        /* Archivo CSS: styles.css */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #333333;
+            color: #333;
+            padding: 20px;
+	    align-items: top center;
+        }
+
+        h1 {
+            color: #4CAF50;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input[type="text"] {
+            padding: 5px;
+            font-size: 1em;
+            width: 200px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 1em;
+            color: #fff;
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #resultado {
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        .dv-resaltado {
+            color: #ff0000; /* Color rojo para resaltar */
+	    font-size: 32px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Verificador de Patente Chilena</h1>
+    <form id="patenteForm">
+        <label for="patente">Ingrese la patente:</label>
+        <input type="text" id="patente" name="patente" required>
+        <button type="submit">Verificar</button>
+    </form>
+    <p id="resultado"></p>
+    <script>
+        class Ppu {
+            constructor(ppu) {
+                this.ppu = ppu.toUpperCase().replace(/[^A-Z0-9]/g, '');
+                this.dv = this.calcularDV();
+            }
+
+            calcularDV() {
+                const letras = this.ppu.slice(0, -2);
+                const numeros = this.ppu.slice(-2);
+
+                const conversion = {
+                    'B': 1, 'C': 2, 'D': 3, 'F': 4, 'G': 5,
+                    'H': 6, 'J': 7, 'K': 8, 'L': 9, 'P': 0,
+                    'R': 2, 'S': 3, 'T': 4, 'V': 5, 'W': 6,
+                    'X': 7, 'Y': 8, 'Z': 9
+                };
+
+                const letrasNumeros = letras.split('').map(letra => {
+                    return conversion[letra] || 0; // Utiliza la tabla de conversión
+                });
+
+                const ppuArray = letrasNumeros.concat(numeros.split('').map(Number)); // Combina las letras convertidas y los números
+                const factors = [2, 3, 4, 5, 6, 7];
+                let sum = 0;
+
+                for (let i = 0; i < ppuArray.length; i++) {
+                    sum += ppuArray[ppuArray.length - 1 - i] * factors[i % factors.length];
+                }
+
+                const remainder = sum % 11;
+                const dv = 11 - remainder;
+
+                if (dv === 11) return '0';
+                if (dv === 10) return 'K';
+                return dv.toString();
+            }
+        }
+
+        if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
+            module.exports = Ppu;
+        } else {
+            window.Ppu = Ppu;
+        }
+
+        document.getElementById('patenteForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const patenteInput = document.getElementById('patente').value;
+            const PpuClass = window.Ppu; // Asegúrate de acceder a la clase Ppu desde el objeto window
+            const ppuInstance = new PpuClass(patenteInput);
+            const digitoVerificador = ppuInstance.dv;
+
+            document.getElementById('resultado').innerHTML = `Tiene el dígito verificador <span class="dv-resaltado">${digitoVerificador}</span>`;
+        });
+    </script>
+</body>
+</html>
