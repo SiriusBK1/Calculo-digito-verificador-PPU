@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verificador de Patente Chilena</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Verificador de Patente Chilena</h1>
+    <form id="patenteForm">
+        <label for="patente">Ingrese la patente:</label>
+        <input type="text" id="patente" name="patente" required>
+        <button type="submit">Verificar</button>
+    </form>
+    <p id="resultado"></p>
+    <script src="patenteChilenaDV.js"></script>
+    <script>
+        document.getElementById('patenteForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const patenteInput = document.getElementById('patente').value;
+            const PpuClass = window.Ppu; // Asegúrate de acceder a la clase Ppu desde el objeto window
+            const ppuInstance = new PpuClass(patenteInput);
+            const digitoVerificador = ppuInstance.dv;
+
+            document.getElementById('resultado').innerHTML = `Tiene el dígito verificador <span class="dv-resaltado">${digitoVerificador}</span>`;
+        });
+    </script>
+</body>
+</html>
