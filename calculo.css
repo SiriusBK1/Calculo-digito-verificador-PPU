@@ -1,0 +1,50 @@
+/* Archivo CSS: styles.css */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    color: #333;
+    padding: 20px;
+}
+
+h1 {
+    color: #4CAF50;
+}
+
+form {
+    margin-bottom: 20px;
+}
+
+label {
+    font-weight: bold;
+}
+
+input[type="text"] {
+    padding: 5px;
+    font-size: 1em;
+    width: 200px;
+    margin-bottom: 10px;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 1em;
+    color: #fff;
+    background-color: #4CAF50;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+#resultado {
+    font-size: 2em;
+    font-weight: bold;
+}
+
+.dv-resaltado {
+    font-size: 52px; 
+    color: #ff0000; /* Color rojo para resaltar */
+}
