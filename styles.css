@@ -1,9 +1,10 @@
 /* Archivo CSS: styles.css */
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f9;
+    background-color: #333333;
     color: #333;
     padding: 20px;
+    align-items: top center
 }
 
 h1 {
